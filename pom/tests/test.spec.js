@@ -2,7 +2,7 @@ import {chromium} from 'playwright';
 const { DashboardPage } = require('../pages/dashboardPage');
 const {test, expect} = require ('@playwright/test')
 const ApiPage = require('../pages/apis');
-const { describe, before } = require('node:test');
+const { describe, before, after } = require('node:test');
 const {LoginPage} = require('../pages/loginPage');
 const {CategoriaPage} = require('../pages/categoriaPage');
 let browser;
@@ -29,9 +29,10 @@ test.describe('Create user via API and Create category and subcategory', () => {
         await loginp.completeEmail('test.qubika@qubika.com');
         await loginp.completePassword('12345678');
         await loginp.clickOnAutenticarButton();
-
+        
         const dashboardp = new DashboardPage(page);
         await dashboardp.isDashboardPage();
+        await page.screenshot({ path: `./screenshots/01-LoggedIn-screenshot.png`, fullPage: true });
         await dashboardp.clickOnTipoCategoria();
 
         const categoriap = new CategoriaPage(page);
@@ -40,6 +41,7 @@ test.describe('Create user via API and Create category and subcategory', () => {
         await categoriap.completeCategoryName("deporte-"+timestamp);
         await categoriap.clickOnAceptarButton();
         await categoriap.isCategorySaved();
+        await page.screenshot({ path: `./screenshots/02-Category-screenshot.png`, fullPage: true });
 
         await categoriap.clickOnAdicionarButton();
         await categoriap.completeCategoryName("deporte-"+timestamp)
@@ -47,6 +49,11 @@ test.describe('Create user via API and Create category and subcategory', () => {
         await categoriap.selectCategoriaPadre("deporte-"+timestamp)
         await categoriap.clickOnAceptarButton();
         await categoriap.isCategorySaved();
+        await page.screenshot({ path: `./screenshots/03-SubCategory-screenshot.png`, fullPage: true });
+    })
+
+    after(async () => {
+        await browser.close();
     })
 
 })
