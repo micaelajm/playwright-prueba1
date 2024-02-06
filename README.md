@@ -2,6 +2,7 @@
 
 - Github Repository https://github.com/micaelajm/playwright-prueba1 
 - Clone the repository `git clone httpsurl`
+- Open the project in Visual Studio Code
 - Open a terminal in the repository folder and run `npm install`
 - Run `npx playwright test` to execute the tests in chrome browser
 - Run `npx playwright show-report` to see the results
